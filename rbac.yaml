@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: k8s-consul-registrar-sa # ServiceAccount 名称
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: k8s-consul-registrar-role # ClusterRole 名称
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - nodes/metrics
+  - pods
+  verbs:
+  - list
+  - get
+- nonResourceURLs:
+  - /metrics/cadvisor
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k8s-consul-registrar-binding # ClusterRoleBinding 名称
+subjects:
+- kind: ServiceAccount
+  name: k8s-consul-registrar-sa # 引用上面定义的 ServiceAccount 名称
+  namespace: default # ServiceAccount 所在的命名空间，如果不是 default 请修改
+roleRef:
+  kind: ClusterRole
+  name: k8s-consul-registrar-role # 引用上面定义的 ClusterRole 名称
+  apiGroup: rbac.authorization.k8s.io

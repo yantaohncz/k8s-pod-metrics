@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-consul-registrar-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-consul-registrar-svc
+  template:
+    metadata:
+      labels:
+        app: k8s-consul-registrar-svc
+    spec:
+      containers:
+      - name: k8s-consul-registrar-svc
+        image: registry-itwork.yonghui.cn/base/testmetrics:v12 # Replace with your image name
+        imagePullPolicy: Always   
+      serviceAccountName: k8s-consul-registrar-sa # 引用 ServiceAccount
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-consul-registrar-svc-service # Service 名称
+spec:
+  selector:
+    app: k8s-consul-registrar-svc # 选择带有此标签的 Pod
+  type: NodePort # 使用 NodePort 类型
+  ports:
+    - protocol: TCP
+      port: 8080 # Service 端口
+      targetPort: 8080 # Pod 端口
+      nodePort: 31112 # Node 端口
