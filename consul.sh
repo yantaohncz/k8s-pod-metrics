@@ -9,7 +9,7 @@ docker run -d \
   -p 8301:8301 \
   -p 8302:8302/udp \
   -v $(pwd)/consul-data:/consul/data \
-registry-itwork.yonghui.cn/base/consul:1.7.3 consul agent \
+  consul:1.7.3 consul agent \
     -server \
     -bootstrap-expect=1 \
     -ui \
@@ -24,7 +24,7 @@ docker run -d \
   --name=consul \
   -v $(pwd)/consul-data:/consul/data \
   --network=host \
-registry-itwork.yonghui.cn/base/consul:1.7.3 consul agent \
+  consul:1.7.3 consul agent \
     -server \
     -bootstrap-expect=1 \
     -ui \
@@ -35,19 +35,4 @@ registry-itwork.yonghui.cn/base/consul:1.7.3 consul agent \
 
 
 
-#   docker run -d \
-#   --name grafana \
-#   -p 3000:3000 \
-#   -e "GF_DATABASE_TYPE=mysql" \
-#   -e "GF_DATABASE_HOST=10.67.82.119:3306" \
-#   -e "GF_DATABASE_NAME=grafana" \
-#   -e "GF_DATABASE_USER=root" \
-#   -e "GF_DATABASE_PASSWORD=your_password" \
-#   grafana/grafana
 
-
-
-# docker run -d --name mysql57 \
-#   -e MYSQL_ROOT_PASSWORD=your_password \
-#   -p 3306:3306 \
-#   registry-itwork.yonghui.cn/base/mysql:5.7
